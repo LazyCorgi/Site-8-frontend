@@ -10,7 +10,7 @@ import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
 
 import App from './App.vue'
-import routerPage from './router'
+import router from './router'
 
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
@@ -40,6 +40,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(vuetify)
-app.use(routerPage)
+app.use(router)
 
 app.mount('#app')

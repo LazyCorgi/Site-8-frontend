@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :model-value="modelValue" @update:model-value="val => emit('update:modelValue', val)" permanent
     width="300">
-    <v-card-title class="pa-4">你好，</v-card-title>
+    <v-card-title class="pa-4">{{ hello }}</v-card-title>
     <v-divider />
 
     <v-list nav dense>
@@ -24,6 +24,9 @@ const { modelValue } = defineProps<{ modelValue: boolean }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
+
+const time = new Date().getHours()
+const hello = ref(time < 5 ? '夜深了，' : time < 12 ? '早上好，' : time < 18 ? '下午好，' : '晚上好，')
 
 const items = [
   { title: '首页', to: '/' },
