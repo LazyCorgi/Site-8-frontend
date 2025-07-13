@@ -8,7 +8,7 @@
     <!-- ✅ 动态类名控制渐隐 -->
     <div ref="scrollContainer" :class="['notice-content', { 'masked-scroll': isOverflowing }]">
       <div class="masonry">
-        <MarkdownCard v-for="(notice, index) in notices" :key="index" :content="notice" />
+        <MarkdownCard v-for="(notice, index) in notices" :key="index" :content="notice.content" />
       </div>
     </div>
   </v-card>
@@ -18,20 +18,26 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import MarkdownCard from './MarkdownCard.vue'
+import axios from 'axios'
 
 const router = useRouter()
 const goToMore = () => router.push('/notices')
 
-const notices = [
-  `## 欢迎使用 Site-8\n\nSite-8 是一个基于 Vue3 + Vuetify3 + Vite 的前端开发框架，目前已经支持了大约 30+ 个组件，欢迎大家的使用。`,
-  `## 🎉 Site-8 v0.0.1 发布\n\nSite-8 v0.0.1 发布了，欢迎大家的使用。`,
-  `## 🎉 Site-8 v0.0.2 发布\n\nSite-8 v0.0.2 发布了，欢迎大家的使用。`,
-  `## 公告 1\n\n短内容。`,
-  `## 公告 2\n\n这是一个很长的公告内容。\n\n- 多行\n- 图片\n\n![图](https://shared.cdn.queniuqe.com/store_item_assets/steam/apps/2953480/header.jpg)`,
-  `## 公告 3\n\n[点击这里](https://example.com)\n\n更多内容`,
-  `## 公告 4\n\n简要提醒。`,
-  `## 公告 5\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-]
+const notices = ref<{ content: string; author: string; created_at: string }[]>([])
+onMounted(async () => {
+  try {
+    const res = await axios.get('/api/notices')
+    notices.value = res.data.map(n => ({
+      content: `# ${n.title}\n\n${n.content}`,
+      author: n.author,
+      created_at: n.created_at
+    }))
+  } catch (err) {
+    console.error(err)
+  }
+}
+  // console.log(notices[0].html)
+)
 
 const scrollContainer = ref<HTMLElement>()
 const isOverflowing = ref(false)

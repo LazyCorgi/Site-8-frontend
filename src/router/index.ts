@@ -20,6 +20,13 @@ const router = createRouter({
       },
     },
     {
+      path: '/notice-create',
+      name: 'notice-create',
+      components: {
+        default: () => import('@/views/NoticeCeateView.vue'),
+      },
+    },
+    {
       path: '/about',
       name: 'about',
       components: {

@@ -30,6 +30,7 @@ const hello = ref(time < 5 ? '夜深了，' : time < 12 ? '早上好，' : time 
 
 const items = [
   { title: '首页', to: '/' },
+  { title: '发布公告', to: '/notice-create' },
   { title: '关于我们', to: '/about' },
 ]
 const theme = useTheme()
