@@ -12,7 +12,8 @@
 import AppDrawer from '@/components/AppDrawer.vue'
 import AppTopbar from '@/components/AppTopbar.vue'
 import { ref } from 'vue'
+import { useUserSettings } from './stores/userSettings'
 
-
-const drawer = ref(true)
+const settings = useUserSettings()
+const drawer = ref(settings.drawerOpen === 'open' ? true : false)
 </script>
