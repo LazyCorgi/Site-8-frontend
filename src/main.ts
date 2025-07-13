@@ -8,12 +8,21 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
+import { useUserSettings } from './stores/userSettings'
 
 import App from './App.vue'
 import router from './router'
 
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+const app = createApp(App)
+app.use(createPinia())
 
+let prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+const userSettings = useUserSettings()
+if (userSettings.theme === 'dark') {
+  prefersDark = true
+} else if (userSettings.theme === 'light') {
+  prefersDark = false
+}
 const vuetify = createVuetify({
   components,
   directives,
@@ -29,16 +38,12 @@ const vuetify = createVuetify({
       dark: {
         colors: {
           primary: '#3913cebb',
-          secondary: '##251662bb',
+          secondary: '##2516627b',
         },
       },
     },
   },
 })
-
-const app = createApp(App)
-
-app.use(createPinia())
 app.use(vuetify)
 app.use(router)
 

@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useTheme } from 'vuetify'
+import { useUserSettings } from '@/stores/userSettings';
 const { modelValue } = defineProps<{ modelValue: boolean }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -33,9 +34,11 @@ const items = [
   { title: '发布公告', to: '/notice-create' },
   { title: '关于我们', to: '/about' },
 ]
+const settings = useUserSettings()
 const theme = useTheme()
 const isDark = ref(theme.global.name.value === 'dark')
 watch(isDark, val => {
   theme.global.name.value = val ? 'dark' : 'light'
+  settings.setTheme(val ? 'dark' : 'light')
 })
 </script>

@@ -1,0 +1,27 @@
+import { defineStore } from 'pinia'
+
+export const useUserSettings = defineStore('userSettings', {
+  state: () => ({
+    theme: localStorage.getItem('theme') || 'auto', // 'light' | 'dark' | 'auto'
+    token: localStorage.getItem('token') || '',
+    username: localStorage.getItem('username') || '',
+  }),
+  actions: {
+    setTheme(mode: 'light' | 'dark' | 'auto') {
+      this.theme = mode
+      localStorage.setItem('theme', mode)
+    },
+    setToken(token: string, username = '') {
+      this.token = token
+      this.username = username
+      localStorage.setItem('token', token)
+      localStorage.setItem('username', username)
+    },
+    logout() {
+      this.token = ''
+      this.username = ''
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+    },
+  },
+})
