@@ -23,11 +23,17 @@ import axios from 'axios'
 const router = useRouter()
 const goToMore = () => router.push('/notices')
 
-const notices = ref<{ content: string; author: string; created_at: string }[]>([])
+type Notice = {
+  title: string
+  content: string
+  author: string
+  created_at: string
+}
+const notices = ref<Notice[]>([])
 onMounted(async () => {
   try {
     const res = await axios.get('/api/notices')
-    notices.value = res.data.map(n => ({
+    notices.value = res.data.map((n: Notice) => ({
       content: `# ${n.title}\n\n${n.content}`,
       author: n.author,
       created_at: n.created_at

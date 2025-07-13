@@ -3,7 +3,7 @@
     <h2 class="text-h5 mb-6">📜 公告历史</h2>
 
     <v-card v-for="(notice, index) in notices" :key="index" class="mb-4 px-4 py-2 notice-card" elevation="2">
-      <div class="notice-markdown masked-scroll" v-html=notice.html />
+      <div class="notice-markdown masked-scroll" v-html=notice.content />
     </v-card>
 
     <!-- 分页器（可后续完善） -->
@@ -16,12 +16,18 @@ import { onMounted, ref } from 'vue'
 import { marked } from 'marked'
 import axios from 'axios'
 
-const notices = ref<{ html: string; author: string; created_at: string }[]>([])
+type Notice = {
+  title: string;
+  content: string;
+  author: string;
+  created_at: string;
+}
+const notices = ref<Notice[]>([])
 onMounted(async () => {
   try {
     const res = await axios.get('/api/notices')
-    notices.value = res.data.map(n => ({
-      html: marked(`# ${n.title}\n\n${n.content}`),
+    notices.value = res.data.map((n: Notice) => ({
+      content: marked(`# ${n.title}\n\n${n.content}`),
       author: n.author,
       created_at: n.created_at
     }))
