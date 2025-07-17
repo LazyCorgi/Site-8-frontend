@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark height="40">
+  <v-app-bar app color="primary" dark height="45">
     <v-app-bar-nav-icon @click="
       $emit('update:drawer', !drawer); userSettings.setDrawerOpen(!drawer)" />
 
@@ -8,11 +8,13 @@
       <v-tab to="/notices" style="min-width: 100px">公告</v-tab>
       <v-tab to="/about" style="min-width: 100px">关于</v-tab>
     </v-tabs>
-
+    <v-spacer />
+    <UserMenu />
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
+import UserMenu from './UserMenu.vue';
 import { useUserSettings } from '@/stores/userSettings';
 const userSettings = useUserSettings()
 

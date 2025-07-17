@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { th, tr } from 'vuetify/locale'
 
 export const useUserSettings = defineStore('userSettings', {
   state: () => ({

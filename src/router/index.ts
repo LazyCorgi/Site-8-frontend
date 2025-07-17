@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import { useUserSettings } from '@/stores/userSettings'
 // import NoticesView from '../views/NoticesView.vue'
 
 const router = createRouter({
@@ -8,9 +9,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      components: {
-        default: HomeView,
-      },
+      component: HomeView,
     },
     {
       path: '/notices',
@@ -34,10 +33,34 @@ const router = createRouter({
       },
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginPage.vue'),
+      meta: { layout: 'none' },
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SettingsView.vue'),
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const user = useUserSettings()
+
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+
+  if (authRequired && !user.token) {
+    return next('/login')
+  }
+
+  next()
 })
 
 export default router

@@ -18,7 +18,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import MarkdownCard from './MarkdownCard.vue'
-import axios from 'axios'
+import api from '@/utils/api'
 
 const router = useRouter()
 const goToMore = () => router.push('/notices')
@@ -32,7 +32,7 @@ type Notice = {
 const notices = ref<Notice[]>([])
 onMounted(async () => {
   try {
-    const res = await axios.get('/api/notices')
+    const res = await api.get('/notices')
     notices.value = res.data.map((n: Notice) => ({
       content: `# ${n.title}\n\n${n.content}`,
       author: n.author,

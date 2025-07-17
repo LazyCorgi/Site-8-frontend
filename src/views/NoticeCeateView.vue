@@ -23,15 +23,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { marked } from 'marked'
-import axios from 'axios'
+import api from '@/utils/api'
 import '@/assets/markdown.css'
+
 const title = ref('标题')
 const markdown = ref(`请在此输入 Markdown 内容...`)
 const html = computed(() => marked("# " + title.value + "\n\n" + markdown.value))
 
 const submit = async () => {
   try {
-    await axios.post('/api/notices', {
+    await api.post('/notices', {
       title: title.value,
       content: markdown.value
     })

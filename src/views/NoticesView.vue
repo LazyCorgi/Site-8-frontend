@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { marked } from 'marked'
-import axios from 'axios'
+import api from '@/utils/api'
 
 type Notice = {
   title: string;
@@ -25,7 +25,7 @@ type Notice = {
 const notices = ref<Notice[]>([])
 onMounted(async () => {
   try {
-    const res = await axios.get('/api/notices')
+    const res = await api.get('/notices')
     notices.value = res.data.map((n: Notice) => ({
       content: marked(`# ${n.title}\n\n${n.content}`),
       author: n.author,
